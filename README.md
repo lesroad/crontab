@@ -3,7 +3,11 @@
 
 ## 项目架构
 
+![avatar](https://github.com/lesroad/crontab/blob/master/picture/%E6%9E%B6%E6%9E%84%E5%9B%BE.png?raw=true) 
+
 ### master
+
+![avatar](https://github.com/lesroad/crontab/blob/master/picture/master.png?raw=true) 
 
 **配置管理config** 静态页面根目录，读写超时，服务端口，集群列表等。
 
@@ -19,6 +23,8 @@
 
 
 ## worker
+
+![avatar](https://github.com/lesroad/crontab/blob/master/picture/worker.png?raw=true) 
 
 **Register 注册服务** 目的是向etcd注册一个key，主要为了通知master我有一个节点上线，可以执行任务了。
 
