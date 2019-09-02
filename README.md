@@ -4,6 +4,7 @@
 ## 项目架构
 
 ### master
+
 **配置管理config** 静态页面根目录，读写超时，服务端口，集群列表等。
 
 **前端** 用于展示web界面 bootstrap+ajax前后端分离。
@@ -18,7 +19,11 @@
 
 
 ## worker
+
 **Register 注册服务** 目的是向etcd注册一个key，主要为了通知master我有一个节点上线，可以执行任务了。
-**JobMgr监听job** 负责监听 /cron/jobs/ 目录下的变化，里面有一个loop。执行流程是这样的，每当有一个新任务从master加入到etcd，那么这个类就会把这个任务放入etcd任务事件队列
+
+**JobMgr监听job** 负责监听 /cron/jobs/ 目录下的变化，里面有一个loop。执行流程是这样的，每当有一个新任务从master加入到etcd，那么这个类就会把这个任务放入etcd任务事件队列。
+
 **任务调度Scheduler** 获取到任务事件后放入到jobPlanTable里面（map[jobname] jobPlan）。loop不断调用定时器，这个类的作用是从jobPlanTable里面遍历，找到时间到了的那个任务，尝试执行。
+
 **任务执行** 执行的时候构建任务执行信息保存到任务执行表(jobExcutingTable)，先进行任务的抢锁（乐观锁），如果抢到锁，就执行，抢不到的话的等待下一轮。任务执行完成之后会通LogSink这个类存储到mongodb中去。
